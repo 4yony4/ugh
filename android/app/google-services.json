@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "472064137965",
+    "project_id": "ugh-234f5",
+    "storage_bucket": "ugh-234f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472064137965:android:59e4c63fed1c30712fcae4",
+        "android_client_info": {
+          "package_name": "org.eurekamps.ugh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472064137965-ta0kukqev6tl0g7j19cfaspleggc3v1g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9qUJ8SiTvKdVoMS12fPNxnaDswARjrzc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472064137965-ta0kukqev6tl0g7j19cfaspleggc3v1g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "472064137965-d93ihl6rea35a42a2rlbap8s23dvtmnu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.eurkamps.ugh"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
