@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:ugh/elements/StarElement.dart';
@@ -47,6 +48,7 @@ class UghGame extends Forge2DGame with HasKeyboardHandlerComponents,HasCollision
     add(mapComponent);
 
 
+
     //initializeGame(true);
   }
 
@@ -59,12 +61,12 @@ class UghGame extends Forge2DGame with HasKeyboardHandlerComponents,HasCollision
   void update(double dt) {
     // TODO: implement update
     //position.add(Vector2(10.0*horizontalDirection, 10.0*verticalDirection));
-    velocity.x = horizontalDirection * moveSpeed;
-    velocity.y = verticalDirection * moveSpeed;
-    mapComponent.position -= velocity * dt;
-    for(final objVisual in objetosVisuales){
-      objVisual.position -= velocity * dt;
-    }
+    //velocity.x = horizontalDirection * moveSpeed;
+    //velocity.y = verticalDirection * moveSpeed;
+    //mapComponent.position -= velocity * dt;
+    //for(final objVisual in objetosVisuales){
+    //  objVisual.position -= velocity * dt;
+    //}
 
     if (health <= 0) {
       overlays.add('GameOver');
@@ -114,6 +116,8 @@ class UghGame extends Forge2DGame with HasKeyboardHandlerComponents,HasCollision
 
     add(_emberBody);
 
+
+
     if (loadHud) {
       add(Hud());
     }
@@ -146,7 +150,7 @@ class UghGame extends Forge2DGame with HasKeyboardHandlerComponents,HasCollision
       verticalDirection=1;
     }
 
-    _emberBody.emberPlayer.horizontalDirection=horizontalDirection;
+    _emberBody.horizontalDirection=horizontalDirection;
   }
 
 }
