@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="12">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="18">
  <tileset firstgid="1" source="platformer_32_full.tsx"/>
  <layer id="1" name="Tile Layer 1" width="40" height="30">
   <data encoding="csv">
@@ -108,6 +108,20 @@
    <object id="3" x="1131.89" y="734.365">
     <point/>
    </object>
+  </objectgroup>
+ </group>
+ <group id="7" name="objestaticos">
+  <objectgroup id="8" name="suelos">
+   <object id="12" x="40.8669" y="600.619">
+    <polygon points="0,0 81.7337,0 115.17,-30.9598 272.446,-32.1981 271.207,9.90712 111.455,6.19195 96.5944,35.9133 85.4489,39.6285 84.2105,111.455 -2.47678,108.978"/>
+   </object>
+   <object id="13" x="610.526" y="634.056">
+    <polygon points="0,0 345.511,-1.23839 475.542,125.077 665.015,126.316 666.254,240.248 480.495,239.009 478.019,162.229 346.749,43.3437 349.226,321.981 4.95356,323.22"/>
+   </object>
+   <object id="14" x="390.093" y="309.598" width="403.715" height="113.932"/>
+   <object id="15" x="965.944" y="211.765" width="85.4489" height="113.932"/>
+   <object id="16" x="1123.22" y="213.003" width="89.1641" height="115.17"/>
+   <object id="17" x="1157.89" y="433.437" width="21.0526" height="117.647"/>
   </objectgroup>
  </group>
 </map>

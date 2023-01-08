@@ -2,18 +2,62 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
+import 'package:flame_forge2d/body_component.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:forge2d/src/dynamics/body.dart';
 import 'package:ugh/elements/StarElement.dart';
 import 'package:ugh/game/UghGame.dart';
 import 'package:ugh/players/GotaPlayer.dart';
 
 
 
+class EmberBody extends BodyComponent<UghGame>{
+
+  Vector2 position;
+  Vector2 size=Vector2(64, 64);
+  late EmberPlayer emberPlayer;
+
+  EmberBody({required this.position});
+
+  @override
+  Future<void> onLoad() async{
+    // TODO: implement onLoad
+    await super.onLoad();
+    emberPlayer=EmberPlayer(position: Vector2.zero());
+    emberPlayer.size=size;
+    add(emberPlayer);
+    renderBody=true;
+
+  }
+
+  @override
+  Body createBody() {
+    // TODO: implement createBody
+    BodyDef definicionCuerpo= BodyDef(position: position,type: BodyType.dynamic);
+    Body cuerpo= world.createBody(definicionCuerpo);
+
+    final shape = PolygonShape();
+    final vertices = [
+      Vector2(0, 0),
+      Vector2(64, 0),
+      Vector2(64, 64),
+      Vector2(0, 64),
+    ];
+    shape.set(vertices);
+
+    FixtureDef fixtureDef=FixtureDef(shape);
+    cuerpo.createFixture(fixtureDef);
+    return cuerpo;
+  }
+
+}
+
 class EmberPlayer extends SpriteAnimationComponent with HasGameRef<UghGame>, KeyboardHandler,CollisionCallbacks {
   EmberPlayer({
     required super.position,
-  }) : super(size: Vector2.all(64), anchor: Anchor.center);
+  }) : super(anchor: Anchor.topLeft);
 
   int verticalDirection = 0;
   int horizontalDirection = 0;

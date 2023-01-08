@@ -4,6 +4,7 @@
 
 import 'package:flame/game.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:ugh/ux/joypad.dart';
 import 'package:ugh/widgets/GameOver.dart';
 import 'package:ugh/widgets/MainMenu.dart';
 
@@ -23,6 +24,7 @@ void main() {
       overlayBuilderMap: {
         'MainMenu': (_, game) => MainMenu(game: game),
         'GameOver': (_, game) => GameOver(game: game),
+        'Joypad': (_, game) => Joypad(onDirectionChanged: game.joypadMoved),
       },
       initialActiveOverlays: const ['MainMenu'],
     ),

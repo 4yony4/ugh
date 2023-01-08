@@ -5,14 +5,17 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:ugh/elements/StarElement.dart';
 
+import '../bodies/SueloBody.dart';
 import '../overlays/Hud.dart';
 import '../players/EmberPlayer.dart';
 import '../players/GotaPlayer.dart';
+import '../ux/joypad.dart';
 
-class UghGame extends FlameGame with HasKeyboardHandlerComponents,HasCollisionDetection{
+class UghGame extends Forge2DGame with HasKeyboardHandlerComponents,HasCollisionDetection{
 
   late TiledComponent mapComponent;
   int verticalDirection = 0;
@@ -21,11 +24,11 @@ class UghGame extends FlameGame with HasKeyboardHandlerComponents,HasCollisionDe
   final double moveSpeed = 200;
   int starsCollected = 0;
   int health = 3;
-  late EmberPlayer _emberPlayer;
+  late EmberBody _emberBody;
 
   List<PositionComponent> objetosVisuales = [];
 
-  UghGame();
+  UghGame():super(gravity: Vector2(0, 9.8),zoom: 0.75);
 
   @override
   Future<void>? onLoad() async{
@@ -83,7 +86,13 @@ class UghGame extends FlameGame with HasKeyboardHandlerComponents,HasCollisionDe
     ObjectGroup? estrellas=mapComponent.tileMap.getLayer<ObjectGroup>("estrellas");
     ObjectGroup? gotas = mapComponent.tileMap.getLayer<ObjectGroup>("gotas");
     ObjectGroup? posinitplayer = mapComponent.tileMap.getLayer<ObjectGroup>("posinitplayer");
+    ObjectGroup? suelos = mapComponent.tileMap.getLayer<ObjectGroup>("suelos");
 
+    for(final suelo in suelos!.objects){
+      SueloBody body=SueloBody(tiledBody: suelo);
+      add(body);
+
+    }
 
     for(final estrella in estrellas!.objects){
       //print("DEBUG: ----->>>>  "+estrella.x.toString()+"    "+estrella.y.toString());
@@ -100,9 +109,10 @@ class UghGame extends FlameGame with HasKeyboardHandlerComponents,HasCollisionDe
       add(gotaComponent);
     }
 
-    _emberPlayer = EmberPlayer(position: Vector2(posinitplayer!.objects.first.x,posinitplayer!.objects.first.y));
+    _emberBody = EmberBody(position: Vector2(posinitplayer!.objects.first.x,posinitplayer!.objects.first.y));
 
-    add(_emberPlayer);
+
+    add(_emberBody);
 
     if (loadHud) {
       add(Hud());
@@ -113,6 +123,30 @@ class UghGame extends FlameGame with HasKeyboardHandlerComponents,HasCollisionDe
     starsCollected = 0;
     health = 3;
     initializeGame(false);
+  }
+
+  void joypadMoved(Direction direction){
+    //print("JOYPAD EN MOVIMIENTO:   ---->  "+direction.toString());
+
+    horizontalDirection=0;
+    verticalDirection=0;
+
+    if(direction==Direction.left){
+      horizontalDirection=-1;
+    }
+    else if(direction==Direction.right){
+      horizontalDirection=1;
+    }
+
+
+    if(direction==Direction.up){
+      verticalDirection=-1;
+    }
+    else if(direction==Direction.down){
+      verticalDirection=1;
+    }
+
+    _emberBody.emberPlayer.horizontalDirection=horizontalDirection;
   }
 
 }
