@@ -22,6 +22,7 @@ class EmberBody extends BodyComponent<UghGame> with KeyboardHandler{
   int horizontalDirection = 0;
   final Vector2 velocity = Vector2.zero();
   final double moveSpeed = 200;
+  double jumpSpeed=0;
 
 
   EmberBody({required this.position});
@@ -43,16 +44,25 @@ class EmberBody extends BodyComponent<UghGame> with KeyboardHandler{
     BodyDef definicionCuerpo= BodyDef(position: position,type: BodyType.dynamic);
     Body cuerpo= world.createBody(definicionCuerpo);
 
-    final shape = PolygonShape();
+    /*final shape = PolygonShape();
     final vertices = [
       Vector2(0, 0),
       Vector2(64, 0),
       Vector2(64, 64),
       Vector2(0, 64),
     ];
-    shape.set(vertices);
+    shape.set(vertices);*/
 
-    FixtureDef fixtureDef=FixtureDef(shape);
+    final shape=CircleShape();
+    shape.radius=size.x/2;
+
+    FixtureDef fixtureDef=FixtureDef(
+        shape,
+      //density: 10.0,
+      //friction: 0.2,
+      restitution: 0.5
+
+    );
     cuerpo.createFixture(fixtureDef);
 
     return cuerpo;
@@ -67,6 +77,8 @@ class EmberBody extends BodyComponent<UghGame> with KeyboardHandler{
   @override
   bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     //print("DEBUG: ----------->>>>>>>> BOTON PRESIONADO: "+keysPressed.toString());
+    //final isKeyDown = event is RawKeyDownEvent;
+    //final isKeyUp = event is RawKeyUpEvent;
 
     horizontalDirection = 0;
     verticalDirection = 0;
@@ -90,18 +102,32 @@ class EmberBody extends BodyComponent<UghGame> with KeyboardHandler{
       verticalDirection=1;
     }
 
+    /*
+    if(keysPressed.contains(LogicalKeyboardKey.space) && (event is RawKeyDownEvent) && jumpSpeed==0){
+      jumpSpeed=2000;
+    }
+
+    if(keysPressed.contains(LogicalKeyboardKey.space) && (event is RawKeyUpEvent) && jumpSpeed==2000){
+      jumpSpeed=0;
+    }
+    */
     game.setDirection(horizontalDirection,verticalDirection);
 
 
     return true;
   }
 
+
   @override
   void update(double dt) {
+
+
     // TODO: implement update
     //position.add(Vector2(10.0*horizontalDirection, 10.0*verticalDirection));
     velocity.x = horizontalDirection * moveSpeed;
     velocity.y = verticalDirection * moveSpeed;
+    velocity.y += -1 * jumpSpeed;
+
     //game.mapComponent.position -= velocity * dt;
 
     center.add((velocity * dt));
@@ -129,7 +155,7 @@ class EmberBody extends BodyComponent<UghGame> with KeyboardHandler{
 class EmberPlayer extends SpriteAnimationComponent with HasGameRef<UghGame>, CollisionCallbacks {
   EmberPlayer({
     required super.position,
-  }) : super(anchor: Anchor.topLeft);
+  }) : super(anchor: Anchor.center);
 
 
 
@@ -150,9 +176,9 @@ class EmberPlayer extends SpriteAnimationComponent with HasGameRef<UghGame>, Col
       ),
     );
 
-    hitbox=CircleHitbox();
+    //hitbox=CircleHitbox();
 
-    add(hitbox);
+    //add(hitbox);
   }
 
 

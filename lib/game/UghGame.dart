@@ -29,8 +29,8 @@ class UghGame extends Forge2DGame with HasKeyboardHandlerComponents,HasCollision
 
   List<PositionComponent> objetosVisuales = [];
 
-  UghGame():super(gravity: Vector2(0, 9.8),zoom: 0.75);
-
+  UghGame():super(zoom: 1);
+  //UghGame():super(zoom: 0.75);
   @override
   Future<void>? onLoad() async{
     // TODO: implement onLoad
