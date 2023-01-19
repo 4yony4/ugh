@@ -10,6 +10,7 @@ import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:ugh/elements/StarElement.dart';
 
+import '../bodies/GotaBody.dart';
 import '../bodies/SueloBody.dart';
 import '../overlays/Hud.dart';
 import '../players/EmberPlayer.dart';
@@ -26,6 +27,7 @@ class UghGame extends Forge2DGame with HasKeyboardHandlerComponents,HasCollision
   int starsCollected = 0;
   int health = 3;
   late EmberBody _emberBody;
+  //Vector2 vec2PosicionCamera=Vector2(0, 400);
 
   List<PositionComponent> objetosVisuales = [];
 
@@ -59,6 +61,7 @@ class UghGame extends Forge2DGame with HasKeyboardHandlerComponents,HasCollision
 
   @override
   void update(double dt) {
+    //vec2PosicionCamera.add(Vector2(1, 0));
     // TODO: implement update
     //position.add(Vector2(10.0*horizontalDirection, 10.0*verticalDirection));
     //velocity.x = horizontalDirection * moveSpeed;
@@ -80,7 +83,7 @@ class UghGame extends Forge2DGame with HasKeyboardHandlerComponents,HasCollision
     this.verticalDirection=verticalDirection;
   }
 
-  void initializeGame(bool loadHud) async{
+  Future<void> initializeGame(bool loadHud) async{
     // Assume that size.x < 3200
     objetosVisuales.clear();
     mapComponent.position=Vector2(0, 0);
@@ -106,21 +109,25 @@ class UghGame extends Forge2DGame with HasKeyboardHandlerComponents,HasCollision
 
     for(final gota in gotas!.objects){
       //print("DEBUG: ----->>>>  "+estrella.x.toString()+"    "+estrella.y.toString());
-      GotaPlayer gotaComponent = GotaPlayer(position: Vector2(gota.x,gota.y));
-      objetosVisuales.add(gotaComponent);
+      GotaBody gotaComponent = GotaBody(
+          posXY: Vector2(gota.x,gota.y),
+          tamWH: Vector2(64,64));
       add(gotaComponent);
     }
 
     _emberBody = EmberBody(position: Vector2(posinitplayer!.objects.first.x,posinitplayer!.objects.first.y));
 
+    //camera.followVector2(vec2PosicionCamera);
 
     add(_emberBody);
-
+    //camera.followBodyComponent(_emberBody);
 
 
     if (loadHud) {
       add(Hud());
     }
+
+
   }
 
   void reset() {

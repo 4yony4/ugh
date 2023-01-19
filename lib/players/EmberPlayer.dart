@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
@@ -10,6 +12,8 @@ import 'package:forge2d/src/dynamics/body.dart';
 import 'package:ugh/elements/StarElement.dart';
 import 'package:ugh/game/UghGame.dart';
 import 'package:ugh/players/GotaPlayer.dart';
+
+import '../ux/joypad.dart';
 
 
 
@@ -23,6 +27,8 @@ class EmberBody extends BodyComponent<UghGame> with KeyboardHandler{
   final Vector2 velocity = Vector2.zero();
   final double moveSpeed = 200;
   double jumpSpeed=0;
+  double iShowDelay=5;
+  bool elementAdded=false;
 
 
   EmberBody({required this.position});
@@ -31,27 +37,25 @@ class EmberBody extends BodyComponent<UghGame> with KeyboardHandler{
   Future<void> onLoad() async{
     // TODO: implement onLoad
     await super.onLoad();
+    //sleep(Duration(mi));
+    //Future.delayed(Duration(seconds: 3));
+
     emberPlayer=EmberPlayer(position: Vector2.zero());
     emberPlayer.size=size;
     add(emberPlayer);
     renderBody=true;
+
+    game.overlays.addEntry('Joypad', (_, game) => Joypad(onDirectionChanged:joypadMoved));
 
   }
 
   @override
   Body createBody() {
     // TODO: implement createBody
-    BodyDef definicionCuerpo= BodyDef(position: position,type: BodyType.dynamic);
+    BodyDef definicionCuerpo= BodyDef(position: position,
+        type: BodyType.dynamic,fixedRotation: true);
     Body cuerpo= world.createBody(definicionCuerpo);
 
-    /*final shape = PolygonShape();
-    final vertices = [
-      Vector2(0, 0),
-      Vector2(64, 0),
-      Vector2(64, 64),
-      Vector2(0, 64),
-    ];
-    shape.set(vertices);*/
 
     final shape=CircleShape();
     shape.radius=size.x/2;
@@ -60,8 +64,7 @@ class EmberBody extends BodyComponent<UghGame> with KeyboardHandler{
         shape,
       //density: 10.0,
       //friction: 0.2,
-      restitution: 0.5
-
+      restitution: 0.5,
     );
     cuerpo.createFixture(fixtureDef);
 
@@ -72,6 +75,30 @@ class EmberBody extends BodyComponent<UghGame> with KeyboardHandler{
   void onMount() {
     super.onMount();
     camera.followBodyComponent(this);
+  }
+
+  void joypadMoved(Direction direction){
+
+    if(direction==Direction.none) {
+      horizontalDirection = 0;
+      verticalDirection = 0;
+    }
+
+    if(direction==Direction.left){
+      horizontalDirection=-1;
+    }
+    else if(direction==Direction.right){
+      horizontalDirection=1;
+    }
+
+
+    if(direction==Direction.up){
+      verticalDirection=-1;
+    }
+    else if(direction==Direction.down){
+      verticalDirection=1;
+    }
+
   }
 
   @override
@@ -121,6 +148,13 @@ class EmberBody extends BodyComponent<UghGame> with KeyboardHandler{
   @override
   void update(double dt) {
 
+    /*if(!elementAdded) {
+      iShowDelay -= dt;
+      if (iShowDelay < 0) {
+        add(emberPlayer);
+        elementAdded=true;
+      }
+    }*/
 
     // TODO: implement update
     //position.add(Vector2(10.0*horizontalDirection, 10.0*verticalDirection));

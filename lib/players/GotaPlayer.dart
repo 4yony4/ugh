@@ -8,8 +8,8 @@ import 'package:ugh/game/UghGame.dart';
 
 class GotaPlayer extends SpriteAnimationComponent with HasGameRef<UghGame> {
   GotaPlayer({
-    required super.position,
-  }) : super(size: Vector2.all(64), anchor: Anchor.center);
+    required super.position, required super.size
+  }) : super( anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
@@ -24,15 +24,7 @@ class GotaPlayer extends SpriteAnimationComponent with HasGameRef<UghGame> {
 
     add(RectangleHitbox()..collisionType = CollisionType.passive);
 
-    add(MoveEffect.by(
-        Vector2(-2 * size.x, 0),
-        EffectController(
-          duration: 3,
-          alternate: true,
-          infinite: true,
-        ),
-      ),
-    );
+
 
   }
 
