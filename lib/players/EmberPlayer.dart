@@ -164,7 +164,15 @@ class EmberBody extends BodyComponent<UghGame> with KeyboardHandler{
 
     //game.mapComponent.position -= velocity * dt;
 
-    center.add((velocity * dt));
+    /**
+     * IMPORTANTE! Para mover el personaje debemos APLICAR FUERZAS al CUERPO
+     * NO mover las coordenadas usando el center ya que luego cuando el objeto REPOSA en el suelo,
+     * este pasa a modo "dormido" y para despertarle DEBEMOS usar FUERZAS y no tocar el center.
+     * Ver documentacion sobre BOX2D (https://www.iforce2d.net/b2dtut/forces)
+     */
+    //center.add((velocity * dt));
+    body.applyLinearImpulse(velocity*dt);
+    body.applyAngularImpulse(3);
 
     if (horizontalDirection < 0 && emberPlayer.scale.x > 0) {
       //flipAxisDirection(AxisDirection.left);

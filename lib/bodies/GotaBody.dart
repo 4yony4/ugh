@@ -52,10 +52,12 @@ class GotaBody extends BodyComponent<UghGame>{
 
     if(dAnimDireccion<0){
       xContador=xContador+dVelocidadAnim;
+      //body.applyLinearImpulse(-Vector2(dVelocidadAnim, dVelocidadAnim));
       center.sub(Vector2(dVelocidadAnim, dVelocidadAnim));
     }
     else{
       xContador=xContador+dVelocidadAnim;
+      //body.applyLinearImpulse(Vector2(dVelocidadAnim, dVelocidadAnim));
       center.add(Vector2(dVelocidadAnim, dVelocidadAnim));
     }
 
